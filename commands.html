@@ -243,34 +243,19 @@
       line-height: 1.5;
     }
 
-    .command-category {
-      margin-bottom: 16px;
-    }
-
-    .category-title {
-      font-size: 13px;
-      text-transform: uppercase;
-      letter-spacing: 0.14em;
-      color: var(--text-muted);
-      margin-bottom: 8px;
-    }
-
-    .command-list {
+    .single-command {
       border-radius: var(--radius-md);
       border: 1px solid rgba(255, 255, 255, 0.06);
       background: rgba(0, 0, 0, 0.35);
-      padding: 10px 11px;
+      padding: 12px 13px;
       font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco,
         Consolas, "Liberation Mono", "Courier New", monospace;
       font-size: 12px;
       color: #dde3ff;
-    }
-
-    .command-row {
       display: flex;
       justify-content: space-between;
-      gap: 10px;
-      padding: 3px 0;
+      gap: 12px;
+      align-items: center;
     }
 
     .command-name {
@@ -285,7 +270,7 @@
     .side-note {
       font-size: 12px;
       color: var(--text-muted);
-      margin-top: 6px;
+      margin-top: 8px;
     }
 
     .code-block {
@@ -372,61 +357,16 @@
               COMMANDS • <span class="gradient-text">locality</span>
             </h1>
             <p class="subtext">
-              Type <strong>?help</strong> in your server to see this list in Discord. These are some core commands to get you started.
+              Type <strong>?help</strong> in your server to see all commands. This page just shows the main one.
             </p>
 
-            <div class="command-category">
-              <div class="category-title">GENERAL</div>
-              <div class="command-list">
-                <div class="command-row">
-                  <span class="command-name">?help</span>
-                  <span class="command-desc">View all commands</span>
-                </div>
-                <div class="command-row">
-                  <span class="command-name">?about</span>
-                  <span class="command-desc">Info about locality</span>
-                </div>
-                <div class="command-row">
-                  <span class="command-name">?ping</span>
-                  <span class="command-desc">Check latency</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="command-category">
-              <div class="category-title">MODERATION</div>
-              <div class="command-list">
-                <div class="command-row">
-                  <span class="command-name">?kick &lt;user&gt;</span>
-                  <span class="command-desc">Kick a member</span>
-                </div>
-                <div class="command-row">
-                  <span class="command-name">?ban &lt;user&gt;</span>
-                  <span class="command-desc">Ban a member</span>
-                </div>
-                <div class="command-row">
-                  <span class="command-name">?clear &lt;amount&gt;</span>
-                  <span class="command-desc">Clear messages</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="command-category">
-              <div class="category-title">UTILITY</div>
-              <div class="command-list">
-                <div class="command-row">
-                  <span class="command-name">?config</span>
-                  <span class="command-desc">Configure the bot</span>
-                </div>
-                <div class="command-row">
-                  <span class="command-name">?logs</span>
-                  <span class="command-desc">View server logs</span>
-                </div>
-              </div>
+            <div class="single-command">
+              <span class="command-name">?help</span>
+              <span class="command-desc">Shows the full command list</span>
             </div>
 
             <p class="side-note">
-              This list is just an example. Replace with your actual commands whenever you want.
+              That’s it. One command, no clutter.
             </p>
           </div>
         </section>
@@ -441,19 +381,6 @@
               </div>
               <div class="code-body">
 ?help
-?help moderation
-?help utility
-              </div>
-            </div>
-
-            <div class="status-label" style="margin-top:14px;">Prefix</div>
-            <div class="code-block">
-              <div class="code-header">
-                <span>current prefix</span>
-                <span>server</span>
-              </div>
-              <div class="code-body">
-?  ← default prefix
               </div>
             </div>
           </div>
