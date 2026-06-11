@@ -1,15 +1,470 @@
-<nav class="topnav">
-  <div class="logo">locality</div>
-  <div class="nav-links">
-    <a href="index.html">Home</a>
-    <a href="commands.html" class="active">Commands</a>
-    <a href="privacy.html">Privacy Policy</a>
-    <a href="tos.html">TOS</a>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>locality — Commands</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #05060a;
+      --bg-elevated: #0b0d14;
+      --accent: #5c7cff;
+      --accent-soft: rgba(92, 124, 255, 0.18);
+      --accent-strong: rgba(92, 124, 255, 0.6);
+      --border-subtle: rgba(255, 255, 255, 0.06);
+      --text-main: #f5f7ff;
+      --text-muted: #9aa1c4;
+      --radius-lg: 14px;
+      --radius-md: 10px;
+      --shadow-soft: 0 22px 60px rgba(0, 0, 0, 0.75);
+      --transition-fast: 160ms ease-out;
+      --transition-med: 220ms ease-out;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+        Roboto, sans-serif;
+      background: radial-gradient(circle at top, #14192b 0, #05060a 52%, #020308 100%);
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .shell {
+      width: 100%;
+      max-width: 980px;
+      background: linear-gradient(135deg, #05060a 0, #090b12 46%, #05060a 100%);
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: var(--shadow-soft);
+      padding: 18px 18px 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .shell::before {
+      content: "";
+      position: absolute;
+      inset: -140px;
+      background:
+        radial-gradient(circle at 10% -20%, rgba(92, 124, 255, 0.15) 0, transparent 50%),
+        radial-gradient(circle at 110% 120%, rgba(0, 230, 210, 0.18) 0, transparent 55%);
+      opacity: 0.7;
+      pointer-events: none;
+    }
+
+    .shell-inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    .titlebar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+      gap: 12px;
+    }
+
+    .titlebar-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .window-dots {
+      display: flex;
+      gap: 6px;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: #ff5f57;
+      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.35);
+    }
+
+    .dot:nth-child(2) {
+      background: #febc2e;
+    }
+
+    .dot:nth-child(3) {
+      background: #28c840;
+    }
+
+    .title {
+      font-size: 14px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .badge {
+      padding: 3px 10px;
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+    }
+
+    nav {
+      margin-bottom: 14px;
+      border-radius: 999px;
+      background: rgba(5, 7, 16, 0.95);
+      border: 1px solid var(--border-subtle);
+      padding: 3px;
+      display: inline-flex;
+      gap: 4px;
+    }
+
+    nav a {
+      border-radius: 999px;
+      padding: 8px 18px;
+      font-size: 13px;
+      text-decoration: none;
+      color: var(--text-muted);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid transparent;
+      backdrop-filter: blur(10px);
+      transition:
+        background var(--transition-med),
+        color var(--transition-med),
+        border-color var(--transition-med),
+        transform var(--transition-fast);
+    }
+
+    nav a span {
+      position: relative;
+      z-index: 1;
+    }
+
+    nav a::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top, rgba(255, 255, 255, 0.08), transparent 55%);
+      opacity: 0;
+      transition: opacity var(--transition-med);
+    }
+
+    nav a:hover {
+      color: var(--text-main);
+      border-color: rgba(255, 255, 255, 0.12);
+      transform: translateY(-1px);
+    }
+
+    nav a:hover::before {
+      opacity: 1;
+    }
+
+    nav a.active {
+      background: linear-gradient(135deg, var(--accent-soft), rgba(12, 16, 40, 0.9));
+      color: var(--text-main);
+      border-color: var(--accent-strong);
+      box-shadow:
+        0 0 0 1px rgba(0, 0, 0, 0.7),
+        0 12px 30px rgba(0, 0, 0, 0.6),
+        0 0 40px rgba(92, 124, 255, 0.4);
+    }
+
+    .main {
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1.2fr);
+      gap: 16px;
+      align-items: stretch;
+    }
+
+    @media (max-width: 820px) {
+      .main {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .panel {
+      background: radial-gradient(circle at top left, rgba(255, 255, 255, 0.03), transparent 60%);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-subtle);
+      padding: 16px 16px 18px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .panel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.04),
+        transparent 40%,
+        rgba(92, 124, 255, 0.1)
+      );
+      opacity: 0.4;
+      pointer-events: none;
+    }
+
+    .panel-inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    .headline {
+      font-size: 22px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      margin-bottom: 10px;
+    }
+
+    .gradient-text {
+      background: linear-gradient(120deg, #ffffff, #b6c3ff, #63ffe6);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .subtext {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+      line-height: 1.5;
+    }
+
+    .command-category {
+      margin-bottom: 16px;
+    }
+
+    .category-title {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .command-list {
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      background: rgba(0, 0, 0, 0.35);
+      padding: 10px 11px;
+      font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco,
+        Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 12px;
+      color: #dde3ff;
+    }
+
+    .command-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 3px 0;
+    }
+
+    .command-name {
+      color: #ffffff;
+    }
+
+    .command-desc {
+      color: var(--text-muted);
+      text-align: right;
+    }
+
+    .side-note {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 6px;
+    }
+
+    .code-block {
+      margin-top: 8px;
+      border-radius: var(--radius-md);
+      background: radial-gradient(circle at top left, #161925, #05060a);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      padding: 10px 11px;
+      font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco,
+        Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 12px;
+      color: #dde3ff;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .code-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 6px;
+      color: var(--text-muted);
+      font-size: 11px;
+    }
+
+    .code-body {
+      white-space: pre;
+    }
+
+    .status-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    footer {
+      margin-top: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      color: var(--text-muted);
+      gap: 10px;
+    }
+
+    footer a {
+      color: var(--text-muted);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      color: var(--text-main);
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <div class="shell-inner">
+      <header class="titlebar">
+        <div class="titlebar-left">
+          <div class="window-dots">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+          </div>
+          <div class="title">locality • Commands</div>
+        </div>
+        <div class="badge">?help</div>
+      </header>
+
+      <nav>
+        <a href="index.html"><span>Home</span></a>
+        <a href="commands.html" class="active"><span>Commands</span></a>
+        <a href="privacy.html"><span>Privacy Policy</span></a>
+        <a href="tos.html"><span>TOS</span></a>
+      </nav>
+
+      <main class="main">
+        <section class="panel">
+          <div class="panel-inner">
+            <h1 class="headline">
+              COMMANDS • <span class="gradient-text">locality</span>
+            </h1>
+            <p class="subtext">
+              Type <strong>?help</strong> in your server to see this list in Discord. These are some core commands to get you started.
+            </p>
+
+            <div class="command-category">
+              <div class="category-title">GENERAL</div>
+              <div class="command-list">
+                <div class="command-row">
+                  <span class="command-name">?help</span>
+                  <span class="command-desc">View all commands</span>
+                </div>
+                <div class="command-row">
+                  <span class="command-name">?about</span>
+                  <span class="command-desc">Info about locality</span>
+                </div>
+                <div class="command-row">
+                  <span class="command-name">?ping</span>
+                  <span class="command-desc">Check latency</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="command-category">
+              <div class="category-title">MODERATION</div>
+              <div class="command-list">
+                <div class="command-row">
+                  <span class="command-name">?kick &lt;user&gt;</span>
+                  <span class="command-desc">Kick a member</span>
+                </div>
+                <div class="command-row">
+                  <span class="command-name">?ban &lt;user&gt;</span>
+                  <span class="command-desc">Ban a member</span>
+                </div>
+                <div class="command-row">
+                  <span class="command-name">?clear &lt;amount&gt;</span>
+                  <span class="command-desc">Clear messages</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="command-category">
+              <div class="category-title">UTILITY</div>
+              <div class="command-list">
+                <div class="command-row">
+                  <span class="command-name">?config</span>
+                  <span class="command-desc">Configure the bot</span>
+                </div>
+                <div class="command-row">
+                  <span class="command-name">?logs</span>
+                  <span class="command-desc">View server logs</span>
+                </div>
+              </div>
+            </div>
+
+            <p class="side-note">
+              This list is just an example. Replace with your actual commands whenever you want.
+            </p>
+          </div>
+        </section>
+
+        <aside class="panel">
+          <div class="panel-inner">
+            <div class="status-label">How to use</div>
+            <div class="code-block">
+              <div class="code-header">
+                <span>locality console</span>
+                <span>usage</span>
+              </div>
+              <div class="code-body">
+?help
+?help moderation
+?help utility
+              </div>
+            </div>
+
+            <div class="status-label" style="margin-top:14px;">Prefix</div>
+            <div class="code-block">
+              <div class="code-header">
+                <span>current prefix</span>
+                <span>server</span>
+              </div>
+              <div class="code-body">
+?  ← default prefix
+              </div>
+            </div>
+          </div>
+        </aside>
+      </main>
+
+      <footer>
+        <span>© 2026 locality</span>
+        <span>Type ?help in your server to see more.</span>
+      </footer>
+    </div>
   </div>
-</nav>
-<main class="wrapper">
-  <section>
-    <h1>COMMANDS</h1>
-    <h2>Type ?Help</h2>
-  </section>
-</main>
+</body>
+</html>
